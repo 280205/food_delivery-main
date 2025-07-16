@@ -1,107 +1,83 @@
-// src/pages/Orders.jsx
+// src/pages/Orders/Orders.jsx
 import React, { useEffect, useState } from 'react';
 import './Orders.css';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 import { assets } from '../../assets/assets';
+import { getAllOrders, updateOrderStatus, deleteOrder } from '../../api';
 
-const Orders = ({ url }) => {
+const Orders = () => {
   const [orders, setOrders] = useState([]);
 
-  const fetchAllOrders = async () => {
-    const response = await axios.get(url + "/api/order/list");
-    if (response.data.success) {
-      setOrders(response.data.data);
-      console.log(response.data.data);
-    } else {
-      toast.error("Error");
-    }
-  };
-
-  const statusHandler = async (event, orderId) => {
-    const response = await axios.post(url + "/api/order/status", {
-      orderId,
-      status: event.target.value,
-    });
-    if (response.data.success) {
-      await fetchAllOrders();
-    }
-  };
-
-  const removeOrder = async (orderId) => {
+  const fetchOrders = async () => {
     try {
-      const response = await axios.post(url + "/api/order/remove", {
-        orderId,
-      });
-      if (response.data.success) {
-        toast.success("Order removed successfully");
-        // Update the UI by filtering out the removed order
-        setOrders(orders.filter((order) => order._id !== orderId));
+      const res = await getAllOrders();
+      if (res.data.success) {
+        setOrders(res.data.data);
+      } else {
+        toast.error("Failed to fetch orders");
+      }
+    } catch {
+      toast.error("Error fetching orders");
+    }
+  };
+
+  const changeStatus = async (orderId, status) => {
+    try {
+      await updateOrderStatus(orderId, status);
+      fetchOrders();
+    } catch {
+      toast.error("Failed to update status");
+    }
+  };
+
+  const removeOrderHandler = async (orderId) => {
+    try {
+      const res = await deleteOrder(orderId);
+      if (res.data.success) {
+        toast.success("Order removed");
+        setOrders(orders.filter((o) => o._id !== orderId));
       } else {
         toast.error("Failed to remove order");
       }
-    } catch (error) {
+    } catch {
       toast.error("Error removing order");
     }
   };
 
   useEffect(() => {
-    fetchAllOrders();
+    fetchOrders();
   }, []);
 
   return (
     <div className="order add">
       <h3>Order Page</h3>
       <div className="order-list">
-        {orders.map((order, index) => (
-          <div key={index} className="order-item">
-            <img src={assets.parcel_icon} alt="" />
+        {orders.map((order, idx) => (
+          <div key={idx} className="order-item">
+            <img src={assets.parcel_icon} alt="parcel" />
             <div>
               <p className="order-item-food">
-                {order.items.map((item, index) => {
-                  if (index === order.items.length - 1) {
-                    return item.name + " x " + item.quantity;
-                  } else {
-                    return item.name + " x " + item.quantity + ", ";
-                  }
-                })}
+                {order.items.map((item, i) => `${item.name} x ${item.quantity}${i < order.items.length - 1 ? ", " : ""}`)}
               </p>
               <p className="order-item-name">
-                {order.address.firstName + " " + order.address.lastName}
+                {order.address.firstName} {order.address.lastName}
               </p>
               <div className="order-item-address">
-                <p>{order.address.street + ","}</p>
-                <p>
-                  {order.address.city +
-                    ", " +
-                    order.address.state +
-                    ", " +
-                    order.address.country +
-                    ", " +
-                    order.address.zipcode}
-                </p>
+                <p>{order.address.street},</p>
+                <p>{order.address.city}, {order.address.state}, {order.address.country}, {order.address.zipcode}</p>
               </div>
               <p className="order-item-phone">{order.address.phone}</p>
             </div>
             <p>Items: {order.items.length}</p>
             <p>${order.amount}</p>
             <div className="order-item-actions">
-              <select
-                onChange={(event) => statusHandler(event, order._id)}
-                value={order.status}
-              >
+              <select value={order.status} onChange={(e) => changeStatus(order._id, e.target.value)}>
                 <option value="Food Processing">Food Processing</option>
                 <option value="Out for Delivery">Out for Delivery</option>
                 <option value="Delivered">Delivered</option>
               </select>
               {order.status === "Delivered" && (
-                <button
-                  className="order-remove-btn"
-                  onClick={() => removeOrder(order._id)}
-                  title="Remove Order"
-                >
-                  ✕
-                </button>
+                <button onClick={() => removeOrderHandler(order._id)} className="order-remove-btn" title="Remove Order">✕</button>
               )}
             </div>
           </div>
