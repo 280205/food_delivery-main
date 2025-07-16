@@ -38,7 +38,7 @@ const Navbar = ({ setShowLogin, className }) => {
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
           <img src={assets.logo || "/placeholder.svg"} alt="FeastFlow Logo" />
-          <span className="logo-text">FeastFlow</span>
+          <span className="logo-text">FeastFlo</span>
         </Link>
 
         <div className={`navbar-menu ${isMobileMenuOpen ? "active" : ""}`}>
