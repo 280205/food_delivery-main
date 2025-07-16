@@ -105,7 +105,7 @@ const PlaceOrder = () => {
                   onChange={onChangeHandler}
                   value={formData.firstName}
                   type="text"
-                  placeholder="John"
+                  placeholder="Nitin"
                 />
               </div>
               <div className="input-group">
@@ -117,7 +117,7 @@ const PlaceOrder = () => {
                   onChange={onChangeHandler}
                   value={formData.lastName}
                   type="text"
-                  placeholder="Doe"
+                  placeholder="Pandey"
                 />
               </div>
               <div className="input-group full-width">
@@ -129,7 +129,7 @@ const PlaceOrder = () => {
                   onChange={onChangeHandler}
                   value={formData.email}
                   type="email"
-                  placeholder="john.doe@example.com"
+                  placeholder="nitin@example.com"
                 />
               </div>
               <div className="input-group full-width">
@@ -153,7 +153,7 @@ const PlaceOrder = () => {
                   onChange={onChangeHandler}
                   value={formData.city}
                   type="text"
-                  placeholder="New York"
+                  placeholder="New Delhi"
                 />
               </div>
               <div className="input-group">
@@ -189,7 +189,7 @@ const PlaceOrder = () => {
                   onChange={onChangeHandler}
                   value={formData.country}
                   type="text"
-                  placeholder="USA"
+                  placeholder="India"
                 />
               </div>
               <div className="input-group full-width">
@@ -201,7 +201,7 @@ const PlaceOrder = () => {
                   onChange={onChangeHandler}
                   value={formData.phone}
                   type="tel"
-                  placeholder="+1 (555) 123-4567"
+                  placeholder="+91 888-123-4567"
                 />
               </div>
             </div>
