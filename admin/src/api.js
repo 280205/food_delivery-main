@@ -1,32 +1,36 @@
-// admin/src/api.js
+// src/api.js
 import axios from "axios";
 
-const API = import.meta.env.VITE_API_URL; // ✅ Connects to backend
+const API = import.meta.env.VITE_API_URL;
 
 // Food APIs
-export const getAllFood = () => axios.get(`${API}/api/food/list`);
+export const getAllFood = async () => {
+  const res = await axios.get(`${API}/api/food/list`);
+  return res.data;
+};
 
-export const addFood = (data, token) =>
-  axios.post(`${API}/api/food/add`, data, {
-    headers: { token },
-  });
+export const addFood = async (formData) => {
+  const res = await axios.post(`${API}/api/food/add`, formData);
+  return res.data;
+};
 
-export const deleteFood = (id, token) =>
-  axios.delete(`${API}/api/food/delete/${id}`, {
-    headers: { token },
-  });
+export const removeFood = async (foodId) => {
+  const res = await axios.post(`${API}/api/food/remove`, { id: foodId });
+  return res.data;
+};
 
 // Order APIs
-export const getAllOrders = (token) =>
-  axios.get(`${API}/api/order/list`, {
-    headers: { token },
-  });
+export const getAllOrders = async () => {
+  const res = await axios.get(`${API}/api/order/list`);
+  return res.data;
+};
 
-export const updateOrderStatus = (id, status, token) =>
-  axios.post(
-    `${API}/api/order/update`,
-    { id, status },
-    {
-      headers: { token },
-    }
-  );
+export const updateOrderStatus = async (orderId, status) => {
+  const res = await axios.post(`${API}/api/order/status`, { orderId, status });
+  return res.data;
+};
+
+export const removeOrder = async (orderId) => {
+  const res = await axios.post(`${API}/api/order/remove`, { orderId });
+  return res.data;
+};
