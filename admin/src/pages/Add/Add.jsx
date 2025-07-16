@@ -1,11 +1,11 @@
-// src/pages/Add.jsx
-import React, { useEffect, useState } from 'react';
+// src/pages/Add/Add.jsx
+import React, { useState } from 'react';
 import './Add.css';
 import { assets } from '../../assets/assets';
-import axios from 'axios';
 import { toast } from 'react-toastify';
+import { addFood } from '../../api';
 
-const Add = ({ url }) => {
+const Add = () => {
   const [image, setImage] = useState(false);
   const [data, setData] = useState({
     name: "",
@@ -14,32 +14,37 @@ const Add = ({ url }) => {
     category: "Salad"
   });
 
-  const onChangeHandler = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setData((data) => ({ ...data, [name]: value }));
+  const onChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const onSubmitHandler = async (event) => {
-    event.preventDefault();
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("description", data.description);
     formData.append("price", Number(data.price));
     formData.append("category", data.category);
     formData.append("image", image);
-    const response = await axios.post(`${url}/api/food/add`, formData);
-    if (response.data.success) {
-      setData({
-        name: "",
-        description: "",
-        price: "",
-        category: "Salad"
-      });
-      setImage(false);
-      toast.success(response.data.message);
-    } else {
-      toast.error(response.data.message);
+
+    try {
+      const res = await addFood(formData);
+      if (res.data.success) {
+        toast.success(res.data.message);
+        setData({
+          name: "",
+          description: "",
+          price: "",
+          category: "Salad"
+        });
+        setImage(false);
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (err) {
+      toast.error("Failed to add food");
     }
   };
 
@@ -64,7 +69,7 @@ const Add = ({ url }) => {
         <div className="add-category-price">
           <div className="add-category flex-col">
             <p>Product category</p>
-            <select onChange={onChangeHandler} name="category">
+            <select onChange={onChangeHandler} name="category" value={data.category}>
               <option value="Salad">Salad</option>
               <option value="Rolls">Rolls</option>
               <option value="Deserts">Deserts</option>
