@@ -3,7 +3,7 @@ import axios from "axios";
 
 const API = import.meta.env.VITE_API_URL;
 
-// Food APIs
+// ✅ Food APIs
 export const getAllFood = async () => {
   const res = await axios.get(`${API}/api/food/list`);
   return res.data;
@@ -19,7 +19,7 @@ export const removeFood = async (foodId) => {
   return res.data;
 };
 
-// Order APIs
+// ✅ Order APIs
 export const getAllOrders = async () => {
   const res = await axios.get(`${API}/api/order/list`);
   return res.data;
@@ -30,7 +30,8 @@ export const updateOrderStatus = async (orderId, status) => {
   return res.data;
 };
 
-export const removeOrder = async (orderId) => {
+// ✅ Fix: Export deleteOrder (your missing function)
+export const deleteOrder = async (orderId) => {
   const res = await axios.post(`${API}/api/order/remove`, { orderId });
   return res.data;
 };
