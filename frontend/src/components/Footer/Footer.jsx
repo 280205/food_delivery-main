@@ -23,7 +23,7 @@ const Footer = () => {
         {/* Newsletter Section */}
         <div className="footer-newsletter">
           <div className="newsletter-content">
-            <h3>Stay Updated with FeastFlow</h3>
+            <h3>Stay Updated with FeastFlo</h3>
             <p>Get the latest updates on new dishes, special offers, and culinary events</p>
             <form className="newsletter-form" onSubmit={handleSubscribe}>
               <div className="input-group">
@@ -54,10 +54,10 @@ const Footer = () => {
           <div className="footer-section footer-brand">
             <div className="brand-logo">
               <img src={assets.logo || "/placeholder.svg"} alt="FeastFlow Logo" />
-              <span className="brand-name">FeastFlow</span>
+              <span className="brand-name">FeastFlo</span>
             </div>
             <p className="brand-description">
-              FeastFlow brings culinary excellence to your events with personalized catering solutions. From intimate
+              FeastFlo brings culinary excellence to your events with personalized catering solutions. From intimate
               gatherings to grand celebrations, we make every moment deliciously unforgettable.
             </p>
             <div className="social-links">
@@ -140,7 +140,7 @@ const Footer = () => {
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                   <polyline points="22,6 12,13 2,6" />
                 </svg>
-                <span>contact@feastflow.com</span>
+                <span>contact@feastflo.com</span>
               </div>
               <div className="contact-item">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -156,7 +156,7 @@ const Footer = () => {
         {/* Footer Bottom */}
         <div className="footer-bottom">
           <div className="footer-bottom-content">
-            <p className="copyright">© 2024 FeastFlow.com - All Rights Reserved</p>
+            <p className="copyright">© 2024 FeastFlo.com - All Rights Reserved</p>
             <div className="footer-bottom-links">
               <a href="/privacy">Privacy Policy</a>
               <a href="/terms">Terms of Service</a>
