@@ -6,7 +6,11 @@ import { StoreContext } from "../context/StoreContext";
 import axios from "axios";
 
 const LoginPopup = ({ setShowLogin }) => {
-  const { url, setToken } = useContext(StoreContext);
+  const { setToken } = useContext(StoreContext);
+
+  // ✅ Use VITE_API_URL directly
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const [currState, setCurrState] = useState("Login");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -28,14 +32,9 @@ const LoginPopup = ({ setShowLogin }) => {
     setError("");
 
     try {
-      let newUrl = url;
-      if (currState === "Login") {
-        newUrl += "/api/user/login";
-      } else {
-        newUrl += "/api/user/register";
-      }
+      let endpoint = currState === "Login" ? "/api/user/login" : "/api/user/register";
 
-      const response = await axios.post(newUrl, data);
+      const response = await axios.post(`${API_URL}${endpoint}`, data);
 
       if (response.data.success) {
         setToken(response.data.token);
@@ -45,7 +44,13 @@ const LoginPopup = ({ setShowLogin }) => {
         setError(response.data.message || "Something went wrong");
       }
     } catch (err) {
-      setError(err.response?.data?.message || "Network error occurred");
+      if (err.response) {
+        setError(err.response.data.message || "Server error occurred");
+      } else if (err.request) {
+        setError("Network error: Could not reach the server");
+      } else {
+        setError("An unknown error occurred");
+      }
     } finally {
       setLoading(false);
     }
@@ -73,10 +78,7 @@ const LoginPopup = ({ setShowLogin }) => {
               </button>
             </div>
             <button type="button" className="close-btn" onClick={() => setShowLogin(false)}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
+              ✕
             </button>
           </div>
 
@@ -90,16 +92,7 @@ const LoginPopup = ({ setShowLogin }) => {
               </p>
             </div>
 
-            {error && (
-              <div className="error-message">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="15" y1="9" x2="9" y2="15" />
-                  <line x1="9" y1="9" x2="15" y2="15" />
-                </svg>
-                {error}
-              </div>
-            )}
+            {error && <div className="error-message">{error}</div>}
 
             <div className="login-popup-inputs">
               {currState === "Sign Up" && (
@@ -145,16 +138,7 @@ const LoginPopup = ({ setShowLogin }) => {
             </div>
 
             <button type="submit" className="submit-btn" disabled={loading}>
-              {loading ? (
-                <div className="loading-spinner">
-                  <div className="spinner"></div>
-                  Processing...
-                </div>
-              ) : currState === "Sign Up" ? (
-                "Create Account"
-              ) : (
-                "Sign In"
-              )}
+              {loading ? "Processing..." : currState === "Sign Up" ? "Create Account" : "Sign In"}
             </button>
 
             <div className="login-popup-condition">
@@ -183,19 +167,6 @@ const LoginPopup = ({ setShowLogin }) => {
                   </button>
                 </p>
               )}
-            </div>
-
-            <div className="divider">
-              <span>or continue with</span>
-            </div>
-
-            <div className="social-login">
-              <button type="button" className="social-btn google">
-                Google
-              </button>
-              <button type="button" className="social-btn facebook">
-                Facebook
-              </button>
             </div>
           </div>
         </form>
