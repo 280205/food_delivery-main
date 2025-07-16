@@ -1,0 +1,48 @@
+.admin-navbar {
+  background: linear-gradient(90deg, #1e293b, #0f172a);
+  padding: 15px 3%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.admin-navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.admin-logo {
+  width: max(5%, 60px);
+  height: auto;
+  filter: brightness(1.2);
+}
+
+.admin-profile {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #f59e0b;
+  transition: transform 0.3s ease;
+}
+
+.admin-profile:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .admin-navbar {
+    padding: 10px 2%;
+  }
+  .admin-logo {
+    width: max(8%, 50px);
+  }
+  .admin-profile {
+    width: 35px;
+    height: 35px;
+  }
+}

@@ -1,0 +1,103 @@
+.verify-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  padding: 2rem;
+}
+
+.verify-container {
+  text-align: center;
+  background: white;
+  padding: 4rem;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+}
+
+.spinner-large {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #e2e8f0;
+  border-top: 6px solid #f59e0b;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 2rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.verify-message {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+.verify-message.success {
+  color: #10b981;
+}
+
+.verify-message.failed {
+  color: #dc2626;
+}
+
+.success-icon,
+.failed-icon {
+  margin: 0 auto 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-icon svg {
+  color: #10b981;
+}
+
+.failed-icon svg {
+  color: #dc2626;
+}
+
+.redirect-message {
+  font-size: 1rem;
+  color: #64748b;
+  margin-top: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .verify-container {
+    padding: 3rem 2rem;
+    border-radius: 20px;
+  }
+
+  .verify-message {
+    font-size: 1.5rem;
+  }
+
+  .spinner-large,
+  .success-icon svg,
+  .failed-icon svg {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .verify-container {
+    padding: 2rem 1.5rem;
+  }
+
+  .verify-message {
+    font-size: 1.25rem;
+  }
+}
